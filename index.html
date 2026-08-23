@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RayoGo — eSIM para viajeros a Estados Unidos</title>
+<meta name="description" content="Internet 5G y llamadas ilimitadas en EE. UU. desde el momento en que aterrizas. Activación digital, sin contratos, conserva tu WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1E3F;
+    --navy-2:#122a52;
+    --gold:#F5A623;
+    --red:#D62839;
+    --paper:#F7F5F0;
+    --ink:#10192E;
+    --slate:#5B6478;
+    --line: rgba(16,25,46,0.12);
+    --radius: 14px;
+    --max: 1120px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Manrope', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk', sans-serif;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; text-decoration:none; }
+  img,svg{ display:block; max-width:100%; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px 24px; border-radius:999px; font-weight:700; font-size:15px;
+    border:2px solid transparent; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-gold{ background:var(--gold); color:var(--navy); box-shadow:0 8px 20px rgba(245,166,35,0.35); }
+  .btn-outline{ background:transparent; color:var(--paper); border-color:rgba(247,245,240,0.35); }
+  .btn-outline:hover{ border-color:var(--paper); }
+  .btn-navy{ background:var(--navy); color:var(--paper); }
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,30,63,0.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(247,245,240,0.08);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:76px; }
+  .logo{ display:flex; align-items:center; gap:10px; color:var(--paper); font-weight:700; font-size:20px; font-family:'Space Grotesk'; }
+  .logo .bolt{ width:26px; height:26px; }
+  .navlinks{ display:flex; align-items:center; gap:32px; }
+  .navlinks a{ color:rgba(247,245,240,0.85); font-size:14px; font-weight:600; }
+  .navlinks a:hover{ color:var(--gold); }
+  @media (max-width:820px){ .navlinks a.hide-mobile{ display:none; } }
+
+  /* HERO */
+  .hero{
+    position:relative; overflow:hidden;
+    background:radial-gradient(120% 140% at 15% 0%, var(--navy-2) 0%, var(--navy) 55%, #081326 100%);
+    color:var(--paper);
+    padding:88px 0 0;
+  }
+  .hero-grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:center; }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono'; font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--gold); border:1px solid rgba(245,166,35,0.4); padding:7px 14px; border-radius:999px;
+    background:rgba(245,166,35,0.08);
+  }
+  .hero h1{ font-size:clamp(38px,5.4vw,60px); line-height:1.04; margin:22px 0 18px; font-weight:700; }
+  .hero h1 span{ color:var(--gold); }
+  .hero p.lead{ font-size:18px; color:rgba(247,245,240,0.78); max-width:480px; margin-bottom:32px; }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:20px; }
+  .hero-note{ font-size:13px; color:rgba(247,245,240,0.55); }
+
+  .flightmap{ position:relative; height:420px; }
+  .flightmap svg{ width:100%; height:100%; }
+  .fm-label{ font-family:'JetBrains Mono'; font-size:11px; fill:rgba(247,245,240,0.6); letter-spacing:0.04em; }
+  .fm-heading{ font-family:'JetBrains Mono'; font-size:11.5px; letter-spacing:0.08em; fill:var(--gold); }
+  @keyframes wifiwave{
+    0%{ opacity:0; transform:scale(0.6); }
+    30%{ opacity:1; }
+    100%{ opacity:0; transform:scale(1.15); }
+  }
+  .wifi-arc{ animation:wifiwave 2.4s ease-out infinite; transform-origin:335px 150px; }
+  @keyframes floatY{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+  .suitcase-float{ animation:floatY 4.5s ease-in-out infinite; }
+  @keyframes fadein{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
+  .fade-in{ animation:fadein .9s ease forwards; opacity:0; }
+  @keyframes tagswing{ 0%,100%{ transform:rotate(-4deg);} 50%{ transform:rotate(4deg);} }
+  .tag-swing{ transform-origin:250px 210px; animation:tagswing 3.2s ease-in-out infinite; }
+
+  /* trust bar */
+  .trust{ background:var(--navy); border-top:1px solid rgba(247,245,240,0.08); padding:26px 0 34px; }
+  .trust-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  @media (max-width:820px){ .trust-grid{ grid-template-columns:repeat(2,1fr); } }
+  .trust-item{ display:flex; align-items:center; gap:10px; color:rgba(247,245,240,0.85); font-size:13.5px; font-weight:600; }
+  .trust-item svg{ flex:none; width:20px; height:20px; color:var(--gold); }
+
+  section{ padding:96px 0; }
+  .section-head{ max-width:620px; margin:0 auto 56px; text-align:center; }
+  .section-head .eyebrow{ color:var(--red); border-color:rgba(214,40,57,0.3); background:rgba(214,40,57,0.06); }
+  .section-head h2{ font-size:clamp(28px,3.6vw,40px); margin:16px 0 12px; color:var(--navy); }
+  .section-head p{ color:var(--slate); font-size:16px; }
+
+  /* how it works - boarding pass timeline */
+  .stops{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; position:relative; }
+  @media (max-width:820px){ .stops{ grid-template-columns:1fr; gap:28px; } }
+  .stops::before{
+    content:''; position:absolute; top:34px; left:8%; right:8%; height:2px;
+    background-image:repeating-linear-gradient(90deg, var(--line) 0 10px, transparent 10px 20px);
+  }
+  @media (max-width:820px){ .stops::before{ display:none; } }
+  .stop{ position:relative; padding:0 20px; text-align:center; }
+  .stop .num{
+    width:68px; height:68px; border-radius:50%; background:var(--navy); color:var(--gold);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 20px;
+    font-family:'JetBrains Mono'; font-weight:600; font-size:13px; position:relative; z-index:2;
+    border:4px solid var(--paper);
+  }
+  .stop h3{ font-size:18px; color:var(--navy); margin-bottom:8px; }
+  .stop p{ color:var(--slate); font-size:14.5px; }
+
+  /* PLANS */
+  .plans-wrap{ background:var(--navy); position:relative; }
+  .plans-wrap .section-head h2{ color:var(--paper); }
+  .plans-wrap .section-head p{ color:rgba(247,245,240,0.7); }
+  .plans-wrap .eyebrow{ color:var(--gold); border-color:rgba(245,166,35,0.4); background:rgba(245,166,35,0.08); }
+  .plans-grid{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  @media (max-width:820px){ .plans-grid{ grid-template-columns:1fr; } }
+  .ticket{
+    background:var(--paper); border-radius:18px; overflow:hidden; position:relative;
+    box-shadow:0 30px 60px rgba(0,0,0,0.28);
+    display:grid; grid-template-columns:1fr 118px;
+  }
+  .ticket-main{ padding:30px 26px; }
+  .ticket-tag{ font-family:'JetBrains Mono'; font-size:11.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--red); font-weight:600; }
+  .ticket-main h3{ font-size:23px; color:var(--navy); margin:8px 0 18px; }
+  .ticket-price{ display:flex; align-items:baseline; gap:6px; margin-bottom:22px; }
+  .ticket-price .num{ font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:var(--navy); }
+  .ticket-price .cur{ font-family:'JetBrains Mono'; color:var(--slate); font-size:14px; }
+  .ticket-feats{ list-style:none; display:flex; flex-direction:column; gap:11px; margin-bottom:24px; }
+  .ticket-feats li{ display:flex; gap:10px; font-size:14.5px; color:var(--ink); align-items:flex-start; }
+  .ticket-feats li svg{ flex:none; width:17px; height:17px; margin-top:2px; color:var(--red); }
+  .ticket-stub{
+    background:var(--navy); color:var(--paper); display:flex; flex-direction:column; align-items:center;
+    justify-content:center; gap:14px; position:relative; padding:16px 8px;
+    border-left:2px dashed rgba(16,25,46,0.18);
+  }
+  .ticket-stub::before, .ticket-stub::after{
+    content:''; position:absolute; width:24px; height:24px; background:var(--navy); border-radius:50%; left:-12px;
+  }
+  .ticket-stub::before{ top:-12px; }
+  .ticket-stub::after{ bottom:-12px; }
+  .stub-vert{ writing-mode:vertical-rl; font-family:'JetBrains Mono'; font-size:11px; letter-spacing:0.08em; color:rgba(247,245,240,0.6); }
+  .stub-code{ font-family:'JetBrains Mono'; font-weight:700; font-size:15px; color:var(--gold); writing-mode:vertical-rl; }
+
+  /* benefits */
+  .benefits-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  @media (max-width:900px){ .benefits-grid{ grid-template-columns:repeat(2,1fr); } }
+  .benefit{ padding:28px 22px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+  .benefit svg{ width:26px; height:26px; color:var(--red); margin-bottom:16px; }
+  .benefit h3{ font-size:16px; color:var(--navy); margin-bottom:8px; }
+  .benefit p{ font-size:13.5px; color:var(--slate); }
+
+  /* faq */
+  .faq{ max-width:760px; margin:0 auto; }
+  .faq-item{ border-bottom:1px solid var(--line); }
+  .faq-q{ width:100%; text-align:left; background:none; border:none; padding:22px 4px; font-family:'Space Grotesk'; font-size:16.5px; font-weight:600; color:var(--navy); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .faq-q svg{ flex:none; width:18px; height:18px; transition:transform .25s ease; color:var(--red); }
+  .faq-item.open .faq-q svg{ transform:rotate(45deg); }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .faq-a p{ padding:0 4px 22px; color:var(--slate); font-size:14.5px; max-width:600px; }
+
+  /* final cta */
+  .final-cta{ background:linear-gradient(120deg, var(--red) 0%, #b81f30 100%); color:#fff; text-align:center; padding:80px 0; }
+  .final-cta h2{ font-size:clamp(26px,4vw,38px); margin-bottom:14px; }
+  .final-cta p{ color:rgba(255,255,255,0.85); margin-bottom:30px; }
+
+  footer{ background:#081326; color:rgba(247,245,240,0.6); padding:48px 0 28px; font-size:13.5px; }
+  .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:28px; }
+  .foot-logo{ color:var(--paper); font-family:'Space Grotesk'; font-weight:700; font-size:18px; margin-bottom:8px; }
+  footer .cols{ display:flex; gap:56px; flex-wrap:wrap; }
+  footer .cols div{ display:flex; flex-direction:column; gap:10px; }
+  footer .cols a:hover{ color:var(--gold); }
+  .foot-bottom{ border-top:1px solid rgba(247,245,240,0.1); padding-top:20px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  /* whatsapp float */
+  .wa-float{
+    position:fixed; bottom:22px; right:22px; z-index:60; background:#25D366; color:#fff;
+    width:58px; height:58px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px rgba(0,0,0,0.28);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="logo">
+      <svg class="bolt" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#F5A623"/></svg>
+      RayoGo
+    </a>
+    <div class="navlinks">
+      <a href="#como-funciona" class="hide-mobile">Cómo funciona</a>
+      <a href="#planes" class="hide-mobile">Planes</a>
+      <a href="#preguntas" class="hide-mobile">Preguntas</a>
+      <a href="https://wa.me/593998316872?text=Hola%2C%20quiero%20info%20de%20las%20eSIM%20para%20USA" class="btn btn-gold" style="padding:10px 20px; font-size:13.5px;">Escríbenos</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">eSIM para viajeros Ecuador → EE. UU.</span>
+      <h1>Aterriza<br>con <span>internet ya activo.</span></h1>
+      <p class="lead">Compra tu eSIM antes de viajar, actívala apenas bajas del avión y mantén tu WhatsApp de siempre. Sin planes largos, sin roaming carísimo, sin filas en el aeropuerto.</p>
+      <div class="hero-ctas">
+        <a href="#planes" class="btn btn-gold">Ver planes desde $25</a>
+        <a href="https://wa.me/593998316872?text=Hola%2C%20quiero%20info%20de%20las%20eSIM%20para%20USA" class="btn btn-outline">Escribir por WhatsApp</a>
+      </div>
+      <p class="hero-note">✓ Activación digital &nbsp; ✓ Pago con tarjeta o transferencia &nbsp; ✓ Entrega en minutos</p>
+    </div>
+
+    <div class="flightmap" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:auto;">
+      <span class="fm-heading" style="font-family:'JetBrains Mono'; font-size:12px; letter-spacing:0.08em; color:var(--gold); align-self:flex-start; margin-bottom:14px;">TU CONEXIÓN VIAJA CONTIGO</span>
+      <img src="hero-suitcase.png" alt="Maleta de viaje con señal wifi hacia Estados Unidos" style="width:100%; max-width:440px;">
+      <span class="fm-label" style="align-self:flex-start; margin-top:16px;">Actívala apenas aterrices, sin importar la ciudad.</span>
+    </div>
+  </div>
+
+  <div class="trust">
+    <div class="wrap trust-grid">
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg> Activación digital e inmediata</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg> Conserva tu WhatsApp y número</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg> Sin contratos, 100% prepago</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-2a4 4 0 014-4h10a4 4 0 014 4v2M12 12a4 4 0 100-8 4 4 0 000 8z"/></svg> Cobertura 5G/4G en todo EE. UU.</div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Proceso</span>
+      <h2>Tres pasos, como abordar un vuelo</h2>
+      <p>Todo el proceso toma minutos y lo haces desde tu celular, antes o después de viajar.</p>
+    </div>
+    <div class="stops">
+      <div class="stop">
+        <div class="num">01</div>
+        <h3>Reserva tu plan</h3>
+        <p>Elige tu plan y paga con tarjeta o transferencia. Confirmamos tu compra al instante.</p>
+      </div>
+      <div class="stop">
+        <div class="num">02</div>
+        <h3>Recibe tu código QR</h3>
+        <p>Te lo enviamos por WhatsApp junto con el paso a paso para instalarlo en tu celular.</p>
+      </div>
+      <div class="stop">
+        <div class="num">03</div>
+        <h3>Actívala al aterrizar</h3>
+        <p>Escanea el QR, activa la eSIM y ya tienes datos, llamadas y tu WhatsApp de siempre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="plans-wrap" id="planes">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Planes válidos por 30 días</span>
+      <h2>Elige tu pase de conexión</h2>
+      <p>Ambos planes incluyen llamadas y textos ilimitados a EE. UU. y más de 100 países.</p>
+    </div>
+    <div class="plans-grid">
+
+      <div class="ticket">
+        <div class="ticket-main">
+          <div class="ticket-tag">eSIM · 30 días</div>
+          <h3>Plan Standard Go</h3>
+          <div class="ticket-price"><span class="num">$25</span><span class="cur">USD / 30 días</span></div>
+          <ul class="ticket-feats">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> 18 GB de datos en 5G/4G</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> 10 GB para compartir (Hotspot)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> $5 USD de saldo roaming</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Cobertura en México y Canadá</li>
+          </ul>
+          <a href="https://wa.me/593998316872?text=Hola%2C%20quiero%20el%20plan%20Standard%20Go%20de%20%2425" class="btn btn-navy" style="width:100%;">Reservar este plan</a>
+        </div>
+        <div class="ticket-stub">
+          <span class="stub-code">$25</span>
+          <span class="stub-vert">RAYOGO · USA</span>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-main">
+          <div class="ticket-tag">eSIM · 30 días</div>
+          <h3>Plan Ultra Go</h3>
+          <div class="ticket-price"><span class="num">$40</span><span class="cur">USD / 30 días</span></div>
+          <ul class="ticket-feats">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> 50 GB de datos en 5G/4G</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> 15 GB para compartir (Hotspot)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> $10 USD de saldo roaming</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> México y Canadá (5 GB roaming)</li>
+          </ul>
+          <a href="https://wa.me/593998316872?text=Hola%2C%20quiero%20el%20plan%20Ultra%20Go%20de%20%2440" class="btn btn-navy" style="width:100%;">Reservar este plan</a>
+        </div>
+        <div class="ticket-stub">
+          <span class="stub-code">$40</span>
+          <span class="stub-vert">RAYOGO · USA</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Por qué RayoGo</span>
+      <h2>Pensado para quien viaja, no para quien vive allá</h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        <h3>Instalación en minutos</h3>
+        <p>Sin ir a una tienda ni esperar envíos. Escaneas un QR y listo.</p>
+      </div>
+      <div class="benefit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <h3>Sigues siendo tú en WhatsApp</h3>
+        <p>Tu número y contactos no cambian. Solo agregas datos locales de EE. UU.</p>
+      </div>
+      <div class="benefit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <h3>Sin sorpresas en la factura</h3>
+        <p>Pagas una sola vez, sabes exactamente qué incluye tu plan de 30 días.</p>
+      </div>
+      <div class="benefit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg>
+        <h3>Soporte real por WhatsApp</h3>
+        <p>Si tienes dudas antes, durante o después del viaje, te respondemos directo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="preguntas">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Antes de que preguntes</h2>
+    </div>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q">¿Pierdo mi número o mi WhatsApp?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><p>No. Tu SIM física sigue activa para llamadas y WhatsApp con tu número de siempre. La eSIM solo agrega una línea de datos local en EE. UU. para navegar rápido y barato.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Mi celular es compatible?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><p>La mayoría de celulares desde 2019 en adelante (iPhone XS o superior, y equivalentes en Android/Samsung/Google) tienen eSIM. Te confirmamos compatibilidad antes de tu compra por WhatsApp.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Cuándo debo activarla?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><p>Puedes instalar el perfil antes de viajar (necesitas WiFi para instalarlo) y activarla justo al aterrizar en EE. UU. Los 30 días empiezan a contar desde la activación, no desde la compra.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Qué pasa si se me acaban los datos?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><p>Puedes comprar un plan adicional o recarga desde el mismo WhatsApp donde nos contactaste, sin perder tu número de eSIM activo.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Cómo pago?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><p>Con tarjeta (te enviamos un link de pago seguro) o por transferencia bancaria. En ambos casos confirmamos tu pago y enviamos el QR el mismo día.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2>¿Tu vuelo ya tiene fecha?</h2>
+    <p>Escríbenos y te ayudamos a elegir el plan correcto para tu viaje.</p>
+    <a href="https://wa.me/593998316872?text=Hola%2C%20quiero%20info%20de%20las%20eSIM%20para%20USA" class="btn btn-gold">Escribir por WhatsApp</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">RayoGo</div>
+        <p style="max-width:260px;">eSIM para viajeros ecuatorianos a Estados Unidos. Internet 5G, llamadas ilimitadas, activación digital.</p>
+      </div>
+      <div class="cols">
+        <div>
+          <strong style="color:var(--paper); font-size:12.5px; text-transform:uppercase; letter-spacing:0.05em;">Sitio</strong>
+          <a href="#planes">Planes</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#preguntas">Preguntas</a>
+        </div>
+        <div>
+          <strong style="color:var(--paper); font-size:12.5px; text-transform:uppercase; letter-spacing:0.05em;">Contacto</strong>
+          <a href="https://wa.me/593998316872">WhatsApp</a>
+          <a href="mailto:hola@rayogo.com">hola@rayogo.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 RayoGo. Todos los derechos reservados.</span>
+      <span>Ecuador → Estados Unidos</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/593998316872?text=Hola%2C%20quiero%20info%20de%20las%20eSIM%20para%20USA" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm5.6 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-2-.2-.4-.1-1-.3-1.7-.7-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.5.8 1.9.8 2 .1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.5.5c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.2 2.3 1.5 2.7 1.7.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.7-.1.3.1 1.7.8 2 .9.3.2.5.2.6.3.1.2.1.9-.1 1.6z"/></svg>
+</a>
+
+<script>
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(o=>{ o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight=null; });
+      if(!isOpen){ item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+    });
+  });
+</script>
+
+</body>
+</html>
